@@ -1,0 +1,972 @@
+
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#111111">
+  <meta name="description" content="Ryqenvo — আধুনিক পুরুষদের পোশাক। আপনার পছন্দের স্টাইল অর্ডার করুন।">
+  <title>Ryqenvo | Wear Your Identity</title>
+
+  <style>
+    :root {
+      --ink: #171717;
+      --cream: #f7f5ef;
+      --muted: #777;
+      --line: #e6e3dc;
+      --accent: #b99a68;
+      --white: #fff;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, "Noto Sans Bengali", sans-serif;
+      color: var(--ink);
+      background: var(--white);
+    }
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    .announcement {
+      background: var(--ink);
+      color: white;
+      text-align: center;
+      padding: 10px;
+      font-size: 12px;
+      letter-spacing: 1px;
+    }
+    header {
+      background: white;
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .header-inner {
+      max-width: 1200px;
+      margin: auto;
+      padding: 17px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .logo {
+      font-size: 27px;
+      font-weight: 900;
+      letter-spacing: 3px;
+    }
+    .logo span { color: var(--accent); }
+    nav { display: flex; gap: 22px; font-size: 13px; }
+    nav a:hover { color: #9a7845; }
+    .cart-button {
+      border: 1px solid var(--ink);
+      padding: 10px 14px;
+      background: white;
+      font-size: 13px;
+      white-space: nowrap;
+    }
+    .hero {
+      background: var(--cream);
+      min-height: 440px;
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-copy {
+      padding: 55px max(25px, calc((100vw - 1150px) / 2));
+      padding-right: 25px;
+    }
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      font-size: 11px;
+      color: #8b7048;
+      font-weight: bold;
+    }
+    .hero h1 {
+      font-size: clamp(38px, 5vw, 67px);
+      line-height: 1.08;
+      margin: 17px 0;
+      letter-spacing: -2px;
+    }
+    .hero p { color: #5e5b55; line-height: 1.8; max-width: 410px; }
+    .primary-button {
+      background: var(--ink);
+      color: white;
+      display: inline-block;
+      padding: 15px 23px;
+      border: 1px solid var(--ink);
+      margin-top: 14px;
+    }
+    .primary-button:hover { background: #383838; }
+    .hero-image {
+      height: 440px;
+      width: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .trust-row {
+      max-width: 1100px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-bottom: 1px solid var(--line);
+      padding: 23px 15px;
+      text-align: center;
+      gap: 12px;
+    }
+    .trust-row strong { font-size: 13px; }
+    .trust-row p { margin: 6px 0 0; color: var(--muted); font-size: 12px; }
+    .section {
+      max-width: 1200px;
+      margin: auto;
+      padding: 65px 22px;
+    }
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+    .section-heading h2 { margin: 7px 0; font-size: 30px; }
+    .section-heading p { color: var(--muted); font-size: 13px; }
+    .categories {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .category {
+      background: var(--cream);
+      padding: 24px 12px;
+      text-align: center;
+      border: 1px solid transparent;
+      font-weight: bold;
+    }
+    .category:hover { border-color: var(--accent); }
+    .category small {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-weight: normal;
+    }
+    .shop-tools {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 20px 0 25px;
+    }
+    .shop-tools input, .shop-tools select {
+      border: 1px solid var(--line);
+      background: white;
+      padding: 12px;
+      min-width: 170px;
+      flex: 1;
+    }
+    .products {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 23px 15px;
+    }
+    .product-card { min-width: 0; }
+    .product-image-wrap {
+      position: relative;
+      background: var(--cream);
+      overflow: hidden;
+    }
+    .product-image {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      transition: transform .35s;
+    }
+    .product-card:hover .product-image { transform: scale(1.035); }
+    .product-tag {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: white;
+      padding: 6px 8px;
+      font-size: 10px;
+      letter-spacing: .5px;
+    }
+    .product-info { padding: 12px 2px; }
+    .product-info h3 { font-size: 14px; margin: 0 0 8px; }
+    .product-info p { color: var(--muted); font-size: 12px; margin: 0 0 9px; }
+    .price { font-weight: bold; font-size: 15px; }
+    .size-label { font-size: 12px; display: block; margin: 12px 0 7px; }
+    .size-options { display: flex; gap: 5px; flex-wrap: wrap; }
+    .size-option {
+      border: 1px solid #ddd;
+      background: white;
+      padding: 7px 9px;
+      font-size: 11px;
+    }
+    .size-option.selected {
+      background: var(--ink);
+      color: white;
+      border-color: var(--ink);
+    }
+    .add-button {
+      width: 100%;
+      margin-top: 12px;
+      background: white;
+      border: 1px solid var(--ink);
+      padding: 11px 7px;
+      font-size: 12px;
+    }
+    .add-button:hover { background: var(--ink); color: white; }
+    .empty-message { color: var(--muted); padding: 20px 0; }
+    .promo {
+      background: var(--ink);
+      color: white;
+      text-align: center;
+      padding: 55px 20px;
+    }
+    .promo h2 { font-size: clamp(25px, 4vw, 40px); margin: 10px 0; }
+    .promo p { color: #ddd; line-height: 1.7; }
+    .promo a {
+      display: inline-block;
+      background: white;
+      color: var(--ink);
+      padding: 13px 22px;
+      margin-top: 10px;
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 35px;
+      align-items: center;
+    }
+    .about-grid h2 { font-size: 30px; }
+    .about-grid p { color: #666; line-height: 1.9; font-size: 14px; }
+    .about-panel {
+      background: var(--cream);
+      padding: 35px;
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: 4px;
+    }
+    footer { background: #111; color: white; padding: 38px 22px; }
+    .footer-inner {
+      max-width: 1150px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    footer p { color: #bbb; font-size: 12px; line-height: 1.8; }
+    .footer-links { display: flex; gap: 18px; flex-wrap: wrap; font-size: 12px; }
+    .copyright {
+      max-width: 1150px;
+      margin: 25px auto 0;
+      border-top: 1px solid #333;
+      padding-top: 18px;
+      color: #aaa;
+      font-size: 11px;
+    }
+
+    /* Cart drawer */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: #0008;
+      z-index: 30;
+      display: none;
+    }
+    .overlay.open { display: block; }
+    .cart-drawer {
+      position: fixed;
+      z-index: 31;
+      top: 0;
+      right: -460px;
+      width: min(440px, 100%);
+      height: 100dvh;
+      background: white;
+      transition: right .25s;
+      padding: 23px;
+      overflow-y: auto;
+    }
+    .cart-drawer.open { right: 0; }
+    .cart-top { display: flex; justify-content: space-between; align-items: center; }
+    .close-button { background: white; border: 1px solid var(--line); padding: 8px 12px; }
+    .cart-item {
+      display: grid;
+      grid-template-columns: 76px 1fr auto;
+      gap: 12px;
+      padding: 17px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: center;
+    }
+    .cart-item img { width: 76px; height: 95px; object-fit: cover; }
+    .cart-item h4 { font-size: 13px; margin: 0 0 7px; }
+    .cart-item p { font-size: 12px; color: var(--muted); margin: 5px 0; }
+    .qty { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+    .qty button { background: white; border: 1px solid var(--line); padding: 4px 9px; }
+    .remove-button { border: 0; background: white; color: #a33; font-size: 12px; }
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: bold;
+      border-top: 1px solid var(--line);
+      padding: 20px 0;
+      margin-top: 10px;
+    }
+    .checkout-form { display: grid; gap: 11px; margin-top: 10px; }
+    .checkout-form h3 { margin: 5px 0; }
+    .checkout-form input, .checkout-form textarea, .checkout-form select {
+      padding: 12px;
+      border: 1px solid #ddd;
+      width: 100%;
+      background: white;
+    }
+    .checkout-form textarea { min-height: 75px; resize: vertical; }
+    .checkout-button {
+      background: #188653;
+      color: white;
+      border: 0;
+      padding: 14px;
+      width: 100%;
+    }
+    .small-note { color: var(--muted); font-size: 11px; line-height: 1.6; }
+    @media (max-width: 800px) {
+      nav { gap: 12px; }
+      .hero { grid-template-columns: 1fr 1fr; min-height: 350px; }
+      .hero-image { height: 350px; }
+      .hero h1 { font-size: 40px; }
+      .products { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .categories { grid-template-columns: repeat(2, 1fr); }
+      .section { padding: 45px 16px; }
+    }
+    @media (max-width: 520px) {
+      .header-inner { padding: 13px 12px; flex-wrap: wrap; }
+      .logo { font-size: 23px; }
+      nav { order: 3; width: 100%; justify-content: space-between; font-size: 11px; }
+      .cart-button { padding: 8px 10px; font-size: 12px; }
+      .hero { grid-template-columns: 1fr; }
+      .hero-copy { padding: 36px 22px 25px; }
+      .hero h1 { font-size: 42px; }
+      .hero-image { height: 310px; }
+      .trust-row { padding: 18px 8px; }
+      .trust-row strong { font-size: 11px; }
+      .trust-row p { font-size: 10px; }
+      .section-heading { align-items: start; flex-direction: column; }
+      .section-heading h2 { font-size: 26px; }
+      .products { gap: 18px 10px; }
+      .product-info h3 { font-size: 13px; }
+      .product-info { padding-top: 10px; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-panel { min-height: 150px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="announcement">
+    RYQENVO — EVERYDAY STYLE, REDEFINED
+  </div>
+
+  <header>
+    <div class="header-inner">
+      <a class="logo" href="#">RYQENVO<span>.</span></a>
+      <nav>
+        <a href="#">হোম</a>
+        <a href="#categories">ক্যাটাগরি</a>
+        <a href="#shop">শপ</a>
+        <a href="#about">আমাদের সম্পর্কে</a>
+      </nav>
+      <button class="cart-button" onclick="openCart()">
+        BAG (<span id="cartCount">0</span>)
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">New style. New confidence.</span>
+        <h1>WEAR YOUR<br>IDENTITY.</h1>
+        <p>
+          নিজের স্টাইল নিজেই তৈরি করো। আধুনিক ডিজাইন,
+          দৈনন্দিন আরাম এবং আত্মবিশ্বাসী লুকের জন্য
+          বেছে নাও Ryqenvo।
+        </p>
+        <a class="primary-button" href="#shop">SHOP COLLECTION →</a>
+      </div>
+      <img class="hero-image"
+        src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1000&q=85"
+        alt="Modern casual clothing collection">
+    </section>
+
+    <div class="trust-row">
+      <div>
+        <strong>QUALITY FIRST</strong>
+        <p>কোয়ালিটির প্রতি যত্ন</p>
+      </div>
+      <div>
+        <strong>EASY ORDERING</strong>
+        <p>সহজ অর্ডার প্রক্রিয়া</p>
+      </div>
+      <div>
+        <strong>DELIVERY AVAILABLE</strong>
+        <p>ডেলিভারি সুবিধা</p>
+      </div>
+    </div>
+
+    <section class="section" id="categories">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">Explore Ryqenvo</span>
+          <h2>SHOP BY CATEGORY</h2>
+          <p>তোমার পছন্দের কালেকশন খুঁজে নাও।</p>
+        </div>
+      </div>
+
+      <div class="categories">
+        <a class="category" href="#shop" onclick="chooseCategory('T-Shirt')">
+          T-SHIRTS<small>Everyday essentials</small>
+        </a>
+        <a class="category" href="#shop" onclick="chooseCategory('Boxy Fit')">
+          BOXY FIT<small>Relaxed streetwear</small>
+        </a>
+        <a class="category" href="#shop" onclick="chooseCategory('Shirt')">
+          SHIRTS<small>Smart & casual</small>
+        </a>
+        <a class="category" href="#shop" onclick="chooseCategory('Formal Pants')">
+          FORMAL PANTS<small>Clean and classic</small>
+        </a>
+      </div>
+    </section>
+
+    <section class="section" id="shop" style="padding-top:10px">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">The Ryqenvo edit</span>
+          <h2>OUR COLLECTION</h2>
+          <p>পণ্য বেছে নাও, সাইজ নির্বাচন করো, কার্টে যোগ করো।</p>
+        </div>
+      </div>
+
+      <div class="shop-tools">
+        <input id="searchInput" type="search"
+          placeholder="পণ্যের নাম লিখে খুঁজুন..."
+          oninput="renderProducts()">
+        <select id="categoryFilter" onchange="renderProducts()">
+          <option value="All">সব ক্যাটাগরি</option>
+          <option value="T-Shirt">T-Shirt</option>
+          <option value="Boxy Fit">Boxy Fit</option>
+          <option value="Shirt">Shirt</option>
+          <option value="Formal Pants">Formal Pants</option>
+        </select>
+        <select id="sortFilter" onchange="renderProducts()">
+          <option value="default">সাজানো: ডিফল্ট</option>
+          <option value="low">দাম: কম থেকে বেশি</option>
+          <option value="high">দাম: বেশি থেকে কম</option>
+        </select>
+      </div>
+
+      <div class="products" id="products"></div>
+      <p class="empty-message" id="emptyMessage" hidden>
+        এই নামে কোনো পণ্য পাওয়া যায়নি।
+      </p>
+    </section>
+
+    <section class="promo">
+      <span class="eyebrow">Your style, your rules</span>
+      <h2>FIND YOUR EVERYDAY LOOK.</h2>
+      <p>Ryqenvo-এর কালেকশন থেকে নিজের পছন্দের স্টাইল বেছে নাও।</p>
+      <a href="#shop">EXPLORE COLLECTION</a>
+    </section>
+
+    <section class="section about-grid" id="about">
+      <div>
+        <span class="eyebrow">About Ryqenvo</span>
+        <h2>STYLE THAT FEELS LIKE YOU.</h2>
+        <p>
+          Ryqenvo হলো আধুনিক পোশাকের জন্য তৈরি একটি ব্র্যান্ড।
+          আমাদের লক্ষ্য হলো সহজ, আকর্ষণীয় ও দৈনন্দিন ব্যবহারযোগ্য
+          পোশাক তোমার কাছে পৌঁছে দেওয়া।
+        </p>
+        <p>তোমার স্টাইল, তোমার পরিচয়।</p>
+      </div>
+      <div class="about-panel">RYQENVO.</div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="logo">RYQENVO<span>.</span></div>
+        <p>Wear Your Identity.<br>Modern clothing, everyday confidence.</p>
+      </div>
+      <div>
+        <strong>NEED HELP?</strong>
+        <p>অর্ডার ও ডেলিভারি সংক্রান্ত তথ্যের জন্য<br>আমাদের সঙ্গে যোগাযোগ করো।</p>
+        <div class="footer-links">
+          <a href="#shop">Shop</a>
+          <a href="#about">About Us</a>
+          <a href="#" onclick="openCart(); return false;">Your Bag</a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      © <span id="year"></span> Ryqenvo. All rights reserved.
+    </div>
+  </footer>
+
+  <div class="overlay" id="overlay" onclick="closeCart()"></div>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-label="Shopping cart">
+    <div class="cart-top">
+      <h2>YOUR BAG</h2>
+      <button class="close-button" onclick="closeCart()">✕</button>
+    </div>
+
+    <div id="cartItems"></div>
+
+    <div class="cart-total">
+      <span>সাবটোটাল</span>
+      <span id="cartTotal">৳ 0</span>
+    </div>
+
+    <p class="small-note">
+      ডেলিভারি চার্জ ঠিকানা ও এলাকার ওপর নির্ভর করতে পারে।
+      অর্ডার নিশ্চিত করার আগে ডেলিভারি চার্জ যাচাই করে নাও।
+    </p>
+
+    <form class="checkout-form" id="checkoutForm">
+      <h3>অর্ডার তথ্য</h3>
+      <input name="customerName" placeholder="আপনার পূর্ণ নাম" required>
+      <input name="phone" type="tel" inputmode="tel"
+        placeholder="মোবাইল নম্বর" required>
+      <textarea name="address" placeholder="সম্পূর্ণ ডেলিভারি ঠিকানা"
+        required></textarea>
+      <select name="payment" required>
+        <option value="Cash on Delivery">ক্যাশ অন ডেলিভারি (COD)</option>
+      </select>
+      <textarea name="note" placeholder="অতিরিক্ত নির্দেশনা (ঐচ্ছিক)"></textarea>
+      <button class="checkout-button" type="submit">
+        WhatsApp-এ অর্ডার পাঠান
+      </button>
+      <p class="small-note">
+        বাটনে চাপলে WhatsApp খুলবে। সেখানে অর্ডারের মেসেজটি
+        দেখে Send চাপতে হবে। এরপর বিক্রেতার কাছ থেকে অর্ডার নিশ্চিত করো।
+      </p>
+    </form>
+  </aside>
+
+  <script>
+    // ===== RYQENVO SETTINGS =====
+    // নিজের WhatsApp নম্বর বসাবে: দেশের কোডসহ, + চিহ্ন ছাড়া।
+    // উদাহরণ: 8801XXXXXXXXX
+    const WHATSAPP_NUMBER = "8801XXXXXXXXX";
+
+    // ===== SAMPLE PRODUCTS =====
+    // আসল পণ্যের ছবি, নাম, দাম ও সাইজ এখানে পরিবর্তন করবে।
+    const products = [
+      {
+        id: 1,
+        name: "Essential Boxy Fit Tee",
+        category: "Boxy Fit",
+        price: 650,
+        tag: "POPULAR",
+        sizes: ["M", "L", "XL"],
+        image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=85"
+      },
+      {
+        id: 2,
+        name: "Classic Black T-Shirt",
+        category: "T-Shirt",
+        price: 550,
+        tag: "ESSENTIAL",
+        sizes: ["M", "L", "XL"],
+        image: "https://images.unsplash.com/photo-1503341504253-dff4815485f1?auto=format&fit=crop&w=700&q=85"
+      },
+      {
+        id: 3,
+        name: "Casual Everyday Shirt",
+        category: "Shirt",
+        price: 850,
+        tag: "NEW STYLE",
+        sizes: ["M", "L", "XL"],
+        image: "https://images.unsplash.com/photo-1596755094514-f87e34085b2c?auto=format&fit=crop&w=700&q=85"
+      },
+      {
+        id: 4,
+        name: "Korean Formal Pants",
+        category: "Formal Pants",
+        price: 950,
+        tag: "SMART FIT",
+        sizes: ["30", "32", "34", "36"],
+        image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=700&q=85"
+      },
+      {
+        id: 5,
+        name: "Relaxed Fit Tee",
+        category: "T-Shirt",
+        price: 600,
+        tag: "CASUAL",
+        sizes: ["M", "L", "XL"],
+        image: "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=700&q=85"
+      },
+      {
+        id: 6,
+        name: "Urban Boxy Tee",
+        category: "Boxy Fit",
+        price: 700,
+        tag: "STREETWEAR",
+        sizes: ["M", "L", "XL"],
+        image: "https://images.unsplash.com/photo-1583743814966-8936f37f4678?auto=format&fit=crop&w=700&q=85"
+      },
+      {
+        id: 7,
+        name: "Smart Casual Shirt",
+        category: "Shirt",
+        price: 900,
+        tag: "VERSATILE",
+        sizes: ["M", "L", "XL"],
+        image: "https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=700&q=85"
+      },
+      {
+        id: 8,
+        name: "Classic Formal Trousers",
+        category: "Formal Pants",
+        price: 1000,
+        tag: "CLASSIC",
+        sizes: ["30", "32", "34", "36"],
+        image: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?auto=format&fit=crop&w=700&q=85"
+      }
+    ];
+
+    let cart = [];
+    try {
+      cart = JSON.parse(localStorage.getItem("ryqenvoCart") || "[]");
+      if (!Array.isArray(cart)) cart = [];
+    } catch (error) {
+      cart = [];
+    }
+
+    const selectedSizes = {};
+
+    function money(amount) {
+      return "৳ " + Number(amount).toLocaleString("en-BD");
+    }
+
+    function saveCart() {
+      try {
+        localStorage.setItem("ryqenvoCart", JSON.stringify(cart));
+      } catch (error) {
+        // Cart will still work for this page session.
+      }
+    }
+
+    function chooseCategory(category) {
+      document.getElementById("categoryFilter").value = category;
+      renderProducts();
+    }
+
+    function renderProducts() {
+      const query = document.getElementById("searchInput").value
+        .trim().toLowerCase();
+      const category = document.getElementById("categoryFilter").value;
+      const sort = document.getElementById("sortFilter").value;
+
+      let filtered = products.filter(product => {
+        const matchesQuery =
+          product.name.toLowerCase().includes(query) ||
+          product.category.toLowerCase().includes(query);
+        const matchesCategory =
+          category === "All" || product.category === category;
+        return matchesQuery && matchesCategory;
+      });
+
+      if (sort === "low") filtered.sort((a, b) => a.price - b.price);
+      if (sort === "high") filtered.sort((a, b) => b.price - a.price);
+
+      const container = document.getElementById("products");
+      container.innerHTML = "";
+
+      document.getElementById("emptyMessage").hidden = filtered.length > 0;
+
+      filtered.forEach(product => {
+        const selected = selectedSizes[product.id] || product.sizes[0];
+        const card = document.createElement("article");
+        card.className = "product-card";
+
+        const imageWrap = document.createElement("div");
+        imageWrap.className = "product-image-wrap";
+
+        const image = document.createElement("img");
+        image.className = "product-image";
+        image.src = product.image;
+        image.alt = product.name;
+        image.loading = "lazy";
+        image.onerror = () => {
+          image.onerror = null;
+          image.src = "https://placehold.co/600x800/f3f0e9/222?text=Ryqenvo";
+        };
+
+        const tag = document.createElement("span");
+        tag.className = "product-tag";
+        tag.textContent = product.tag;
+        imageWrap.append(image, tag);
+
+        const info = document.createElement("div");
+        info.className = "product-info";
+
+        const name = document.createElement("h3");
+        name.textContent = product.name;
+
+        const categoryText = document.createElement("p");
+        categoryText.textContent = product.category;
+
+        const price = document.createElement("div");
+        price.className = "price";
+        price.textContent = money(product.price);
+
+        const sizeLabel = document.createElement("label");
+        sizeLabel.className = "size-label";
+        sizeLabel.textContent = "সাইজ নির্বাচন করুন";
+
+        const sizeOptions = document.createElement("div");
+        sizeOptions.className = "size-options";
+
+        product.sizes.forEach(size => {
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className =
+            "size-option" + (selected === size ? " selected" : "");
+          button.textContent = size;
+          button.setAttribute("aria-pressed", selected === size ? "true" : "false");
+
+          button.addEventListener("click", () => {
+            selectedSizes[product.id] = size;
+            renderProducts();
+          });
+
+          sizeOptions.appendChild(button);
+        });
+
+        const addButton = document.createElement("button");
+        addButton.type = "button";
+        addButton.className = "add-button";
+        addButton.textContent = "＋ কার্টে যোগ করুন";
+        addButton.addEventListener("click", () => addToCart(product.id));
+
+        info.append(name, categoryText, price, sizeLabel, sizeOptions, addButton);
+        card.append(imageWrap, info);
+        container.appendChild(card);
+      });
+    }
+
+    function addToCart(productId) {
+      const product = products.find(p => p.id === productId);
+      if (!product) return;
+
+      const size = selectedSizes[productId] || product.sizes[0];
+      const existing = cart.find(item =>
+        item.id === productId && item.size === size
+      );
+
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({
+          id: productId,
+          size,
+          quantity: 1
+        });
+      }
+
+      saveCart();
+      renderCart();
+      openCart();
+    }
+
+    function changeQuantity(productId, size, amount) {
+      const item = cart.find(i => i.id === productId && i.size === size);
+      if (!item) return;
+
+      item.quantity += amount;
+      if (item.quantity <= 0) {
+        cart = cart.filter(i =>
+          !(i.id === productId && i.size === size)
+        );
+      }
+
+      saveCart();
+      renderCart();
+    }
+
+    function removeFromCart(productId, size) {
+      cart = cart.filter(i =>
+        !(i.id === productId && i.size === size)
+      );
+      saveCart();
+      renderCart();
+    }
+
+    function renderCart() {
+      const container = document.getElementById("cartItems");
+      container.innerHTML = "";
+
+      let totalQuantity = 0;
+      let totalPrice = 0;
+
+      cart.forEach(item => {
+        const product = products.find(p => p.id === item.id);
+        if (!product) return;
+
+        totalQuantity += item.quantity;
+        totalPrice += product.price * item.quantity;
+
+        const row = document.createElement("div");
+        row.className = "cart-item";
+
+        const image = document.createElement("img");
+        image.src = product.image;
+        image.alt = product.name;
+        image.onerror = () => {
+          image.onerror = null;
+          image.src = "https://placehold.co/100x130/f3f0e9/222?text=Item";
+        };
+
+        const details = document.createElement("div");
+        const title = document.createElement("h4");
+        title.textContent = product.name;
+
+        const size = document.createElement("p");
+        size.textContent = "সাইজ: " + item.size;
+
+        const price = document.createElement("p");
+        price.textContent = money(product.price);
+
+        const quantity = document.createElement("div");
+        quantity.className = "qty";
+
+        const minus = document.createElement("button");
+        minus.type = "button";
+        minus.textContent = "−";
+        minus.setAttribute("aria-label", "পরিমাণ কমান");
+        minus.onclick = () => changeQuantity(item.id, item.size, -1);
+
+        const number = document.createElement("span");
+        number.textContent = item.quantity;
+
+        const plus = document.createElement("button");
+        plus.type = "button";
+        plus.textContent = "+";
+        plus.setAttribute("aria-label", "পরিমাণ বাড়ান");
+        plus.onclick = () => changeQuantity(item.id, item.size, 1);
+
+        quantity.append(minus, number, plus);
+        details.append(title, size, price, quantity);
+
+        const remove = document.createElement("button");
+        remove.className = "remove-button";
+        remove.type = "button";
+        remove.textContent = "বাদ দিন";
+        remove.onclick = () => removeFromCart(item.id, item.size);
+
+        row.append(image, details, remove);
+        container.appendChild(row);
+      });
+
+      if (cart.length === 0) {
+        const empty = document.createElement("p");
+        empty.className = "empty-message";
+        empty.textContent = "তোমার কার্ট এখন খালি।";
+        container.appendChild(empty);
+      }
+
+      document.getElementById("cartCount").textContent = totalQuantity;
+      document.getElementById("cartTotal").textContent = money(totalPrice);
+    }
+
+    function openCart() {
+      document.getElementById("cartDrawer").classList.add("open");
+      document.getElementById("overlay").classList.add("open");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeCart() {
+      document.getElementById("cartDrawer").classList.remove("open");
+      document.getElementById("overlay").classList.remove("open");
+      document.body.style.overflow = "";
+    }
+
+    document.getElementById("checkoutForm").addEventListener("submit", event => {
+      event.preventDefault();
+
+      if (cart.length === 0) {
+        alert("প্রথমে কার্টে অন্তত একটি পণ্য যোগ করুন।");
+        return;
+      }
+
+      if (!/^8801[3-9]\d{8}$/.test(WHATSAPP_NUMBER)) {
+        alert("ওয়েবসাইটের কোডে সঠিক WhatsApp নম্বর বসাতে হবে।");
+        return;
+      }
+
+      const form = event.currentTarget;
+      const formData = new FormData(form);
+
+      const name = String(formData.get("customerName") || "").trim();
+      const phone = String(formData.get("phone") || "").trim();
+      const address = String(formData.get("address") || "").trim();
+      const note = String(formData.get("note") || "").trim();
+
+      if (!name || !phone || !address) {
+        alert("নাম, ফোন ও ঠিকানা পূরণ করুন।");
+        return;
+      }
+
+      let total = 0;
+      const lines = cart.map(item => {
+        const product = products.find(p => p.id === item.id);
+        if (!product) return "";
+        total += product.price * item.quantity;
+        return `• ${product.name} | Size: ${item.size} | Qty: ${item.quantity} | ${money(product.price * item.quantity)}`;
+      }).filter(Boolean);
+
+      const message = [
+        "🛍️ *RYQENVO - NEW ORDER*",
+        "",
+        "*Customer:* " + name,
+        "*Phone:* " + phone,
+        "*Address:* " + address,
+        "",
+        "*Products:*",
+        ...lines,
+        "",
+        "*Subtotal:* " + money(total),
+        "*Delivery charge:* To be confirmed",
+        "*Note:* " + (note || "None"),
+        "",
+        "Please confirm availability and total payable amount."
+      ].join("\n");
+
+      const url = "https://wa.me/" + WHATSAPP_NUMBER +
+        "?text=" + encodeURIComponent(message);
+
+      window.open(url, "_blank", "noopener");
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    renderProducts();
+    renderCart();
+  </script>
+</body>
+</html>
